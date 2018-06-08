@@ -39,25 +39,24 @@ func ByteSize(bytes uint64) string {
 
 	switch {
 	case bytes >= TERABYTE:
-		unit = "T"
+		unit = "TB"
 		value = value / TERABYTE
 	case bytes >= GIGABYTE:
-		unit = "G"
+		unit = "GB"
 		value = value / GIGABYTE
 	case bytes >= MEGABYTE:
-		unit = "M"
+		unit = "MB"
 		value = value / MEGABYTE
 	case bytes >= KILOBYTE:
-		unit = "K"
+		unit = "KB"
 		value = value / KILOBYTE
 	case bytes >= BYTE:
 		unit = "B"
 	case bytes == 0:
 		return "0"
 	}
-
-	stringValue := fmt.Sprintf("%.1f", value)
-	stringValue = strings.TrimSuffix(stringValue, ".0")
+	stringValue := fmt.Sprintf("%.2f", value)
+	stringValue = strings.TrimSuffix(stringValue, ".00")
 	return fmt.Sprintf("%s%s", stringValue, unit)
 }
 
@@ -83,7 +82,7 @@ func ToBytes(s string) (uint64, error) {
 	}
 
 	value, err := strconv.ParseFloat(parts[1], 64)
-	if err != nil || value <= 0 {
+	if err != nil || value < 0 {
 		return 0, invalidByteQuantityError
 	}
 
